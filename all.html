@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Framework Test</title>
+    <link href="css/style-all.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700" rel="stylesheet">
+    <script src="https://cdn.rawgit.com/tristen/tablesort/gh-pages/dist/tablesort.min.js"></script>
+    <script src="https://cdn.rawgit.com/tristen/tablesort/gh-pages/dist/sorts/tablesort.number.min.js"></script>
+    <!-- <script src="./elem-vdom/elem.js"></script> -->
+    <script src="js/list.js"></script>
+    <script src="js/ga.js"></script>
+</head>
+
+<body>
+    <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+        <span class="title">Framework Speed Competition</span>
+        <div class="legend">
+            <div class="legendChild">
+                <span class="fw">Todo implementation</span>
+                <div class="color todo"></div>
+            </div>
+            <div class="legendChild">
+                <span class="fw">Naive implementation</span>
+                <div class="color naive"></div>
+            </div>
+            <div class="legendChild">
+                <span class="fw">Optimized implementation</span>
+                <div class="color optimized"></div>
+            </div>
+        </div>
+    </div>
+    <div id="render-box">
+        <div id="render-info"></div>
+        <iframe id="render-frame" height="1080" width="1920"></iframe>
+    </div>
+    <div>
+        <table id="ranking">
+            <thead>
+                <tr>
+                    <th style="min-width:25px"></th>
+                    <th style="min-width:250px">Name</th>
+                    <th style="min-width:100px">Rate/sec 1%</th>
+                    <th style="min-width:100px">25%</th>
+                    <th style="min-width:100px">50%</th>
+                    <th style="min-width:100px">75%</th>
+                    <th data-sort-default aria-sort="descending" style="min-width:100px">100%</th>
+                </tr>
+            </thead>
+            <tbody id="ranking-body">
+            </tbody>
+        </table>
+    </div>
+    <script src="lib/monitor-all.js"></script>
+</body>
+
+</html>

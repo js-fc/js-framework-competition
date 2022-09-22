@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru" ng-app="app">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Angular Speed Race">
+    <title>Aurelia Speed Race</title>
+    <link href="../../css/styles.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+
+<body ng-controller="DBMonCtrl">
+    <!-- DBMon -->
+    <div>
+        <table class="table table-striped latest-data">
+            <tbody>
+                <!-- Database -->
+                <tr ng-repeat="db in databases">
+                    <td class="dbname">
+                        {{db.dbname}}
+                    </td>
+                    <!-- Sample -->
+                    <td class="query-count">
+                        <span class="{{db.lastSample.countClassName}}">
+                            {{db.lastSample.nbQueries}}
+                        </span>
+                    </td>
+                    <!-- Query -->
+                    <td ng-repeat="q in db.lastSample.topFiveQueries" class="{{q.elapsedClassName}}">
+                        {{q.formatElapsed}}
+                        <div class="popover left">
+                            <div class="popover-content">
+                                {{q.query}}
+                            </div>
+                            <div class="arrow"></div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="../../js/ENV.js"></script>
+    <script src="../../lib/memory-stats.js"></script>
+    <script src="../../lib/monitor.js"></script>
+    <script src="app.js"></script>
+    <script src="../../js/ga.js"></script>
+</body>
+
+</html>

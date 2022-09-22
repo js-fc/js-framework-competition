@@ -1,2 +1,1 @@
-# js-framework-competition
-JS Framework Competition
+# Framework Speed Competition

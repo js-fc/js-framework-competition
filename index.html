@@ -2,13 +2,44 @@
 <html lang="ru">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JS-Framework Competition</title>
+    <meta charset="utf-8">
+    <title>Framework Speed Competition</title>
+    <link rel="icon" type="images/png" href="images/favicon.png">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/pouchdb@latest/dist/pouchdb.min.js"></script>
 </head>
 
 <body>
-    <p>Hello, JS-Framework Competition</p>
+    <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+        <span class="title">Framework Speed Competition</span>
+        <div class="legend">
+            <div class="legendChild">
+                <span class="fw">Todo implementation</span>
+                <div class="color todo"></div>
+            </div>
+            <div class="legendChild">
+                <span class="fw">Naive implementation</span>
+                <div class="color naive"></div>
+            </div>
+            <div class="legendChild">
+                <span class="fw">Optimized implementation</span>
+                <div class="color optimized"></div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="child all">
+            <a target="_blank" href="./all.html">Start</a>
+        </div>
+    </div>
+    <div id="list"></div>
+    
+    <script src="js/elem.js"></script>
+    <script src="js/list.js"></script>
+    <script src="js/library-list.js"></script>
+    <script src="js/ga.js"></script>
+    <script src="js/app.js"></script>
 </body>
+
 </html>

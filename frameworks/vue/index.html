@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Vue Speed Race" />
+    <title>Vue Speed Race</title>
+    <link href="../../css/styles.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div id="app">
+        <table class="table table-striped lastest-data">
+            <tbody>
+                <tr v-for="db in databases" track-by="$index">
+                    <td class="dbname">{{db.dbname}}</td>
+                    <td class="query-count">
+                        <span class="{{db.lastSample.countClassName}}">{{db.lastSample.nbQueries}}</span>
+                    </td>
+                    <td v-for="q in db.lastSample.topFiveQueries" track-by="$index"
+                        class="Query {{q.elapsedClassName}}">
+                        {{q.formatElapsed}}
+                        <div class="popover left">
+                            <div class="popover-content">{{q.query}}</div>
+                            <div class="arrow"></div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="../../js/ENV.js"></script>
+    <script src="../../lib/memory-stats.js"></script>
+    <script src="../../lib/monitor.js"></script>
+    <script src="../../lib/vue.min.js"></script>
+    <script src="./app.js"></script>
+    <script src="../../js/ga.js"></script>
+</body>
+
+</html>
