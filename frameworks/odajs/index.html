@@ -31,7 +31,7 @@
     <oda-pref style="visibility: visible"></oda-pref>
     <script src="../../js/ENV.js"></script>
     <script src="../../lib/memory-stats.js"></script>
-    <script src="../../lib/monitor.js"></script>
+    <script type="module" src="../../lib/monitor.js"></script>
 </body>
 
 <script type="module">
@@ -166,7 +166,7 @@
         `,
         databases: [],
         attached() {
-            setInterval(() => this.databases = ENV.generateData(Monitoring.renderRate.ping()).toArray(), ENV.timeout);
+            setInterval(() => this.databases = ENV.generateData(Monitoring.ping()).toArray(), ENV.timeout);
         }
     })
 </script>
