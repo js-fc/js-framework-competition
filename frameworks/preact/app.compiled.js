@@ -63,7 +63,7 @@
         return _inherits(DBMon, _Component3), DBMon.prototype.loadSamples = function() {
             this.setState({
                 databases: ENV.generateData(!0).toArray()
-            }), Monitoring.renderRate.ping(), setTimeout(this.loadSamples.bind(this), ENV.timeout);
+            }), window.Monitoring?.ping(), setTimeout(this.loadSamples.bind(this), ENV.timeout);
         }, DBMon.prototype.componentDidMount = function() {
             this.loadSamples();
         }, DBMon.prototype.renderDatabase = function(database) {

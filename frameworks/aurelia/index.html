@@ -6,15 +6,14 @@
     <meta name="description" content="ODA Speed Race">
     <title>Aurelia Speed Race</title>
     <link href="../../css/styles.css" rel="stylesheet">
+    <script type="module" src="../../lib/monitor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.3/require.min.js"></script>
+    <script src="https://rawgit.com/aurelia/script-tag/master/scripts/aurelia-core.min.js"></script>
 </head>
 
 <body>
     <div aurelia-app="main"></div>
     <script src="../../js/ENV.js"></script>
-    <script src="../../lib/memory-stats.js"></script>
-    <script src="../../lib/monitor.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.3/require.min.js"></script>
-    <script src="https://rawgit.com/aurelia/script-tag/master/scripts/aurelia-core.min.js"></script>
     <script>
         require.config({
             paths: {

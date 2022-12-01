@@ -32,10 +32,10 @@ m.mount(document.getElementById("app"), {
 
 function update() {
 	data = ENV.generateData().toArray()
-	
-	Monitoring.renderRate.ping();
+
+	window.Monitoring?.ping();
 	m.redraw()
-	
+
 	setTimeout(update, ENV.timeout)
 }
 

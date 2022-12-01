@@ -5,7 +5,7 @@ export const List = [
 	{ type: 'naive aurelia', id: 'aurelia', url: './frameworks/aurelia', label: 'Aurelia' },
 	{ type: 'naive backbone', id: 'backbone', url: './frameworks/backbone', label: 'Backbone' },
 	{ type: 'naive angular', id: 'angular', url: './frameworks/angular', label: 'Angular' },
-	{ type: 'naive polymer ', id: 'polymer', url: './frameworks/polymer', label: 'Polymer 1.8' },
+	{ type: 'naive ember', id: 'ember', url: './frameworks/ember' , label: 'Ember' },
 	{ type: 'naive react', id: 'react', url: './frameworks/react', label: 'React' },
 	{ type: 'optimized preact', id: 'preact', url: './frameworks/preact', label: 'Preact' },
 	{ type: 'naive mithril', id: 'mithril', url: './frameworks/mithril', label: 'Mithril' },

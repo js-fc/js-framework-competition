@@ -12,7 +12,7 @@
             dom: 'shadow',
             lazyRegister: true
         };
-    </script>
+        </script>
     <script src="../../lib/polymer/bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 </head>
 
@@ -21,8 +21,12 @@
         <db-table></db-table>
     </div>
     <script src="../../js/ENV.js"></script>
-    <script src="../../lib/memory-stats.js"></script>
-    <script src="../../lib/monitor.js"></script>
+    <script type="module" src="../../lib/monitor.js"></script>
+    <memory-monitor></memory-monitor>
+    <fps-monitor></fps-monitor>
+    <script>
+        globalThis.Monitoring = document.querySelector('fps-monitor');
+    </script>
 </body>
 
 </html>

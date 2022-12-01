@@ -198,7 +198,7 @@ databasesView.render();
 
 var update = function () {
     databases.set(ENV.generateData().toArray(), { parse: true });
-    Monitoring.renderRate.ping();
+    window.Monitoring?.ping();
     setTimeout(update, ENV.timeout);
 };
 

@@ -64,7 +64,7 @@ class DBMon extends Component {
 		this.setState({
 			databases: ENV.generateData(true).toArray()
 		});
-		Monitoring.renderRate.ping();
+		window.Monitoring?.ping();
 		setTimeout(::this.loadSamples, ENV.timeout);
 	}
 

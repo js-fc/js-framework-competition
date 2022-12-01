@@ -9,7 +9,7 @@ define(['exports'], function (exports) {
     var _this = this;
     function load() {
       _this.databases = ENV.generateData().toArray();
-      Monitoring.renderRate.ping();
+      window.Monitoring?.ping();
       setTimeout(load, ENV.timeout);
     }
     load();

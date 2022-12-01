@@ -5,7 +5,7 @@ const { h, render } = preact;
 let root = document.getElementById('dbmon'),
 	base;
 function frame() {
-	Monitoring.renderRate.ping();
+	window.Monitoring?.ping();
 	base = render(<DBMon databases={ENV.generateData().toArray()} />, root, base);
 	setTimeout(frame, ENV.timeout);
 }

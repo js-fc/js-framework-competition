@@ -9,7 +9,7 @@ var App = React.createClass({
 
   loadSamples: function () {
     this.setState({ databases: ENV.generateData().toArray() });
-    Monitoring.renderRate.ping();
+    window.Monitoring.ping();
     setTimeout(this.loadSamples, ENV.timeout);
   },
 

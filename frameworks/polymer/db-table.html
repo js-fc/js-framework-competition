@@ -48,7 +48,7 @@
 
         function refreshData() {
             window.dbElem.databases = ENV.generateData().toArray();
-            Monitoring.renderRate.ping();
+            window.Monitoring?.ping?.();
             setTimeout(refreshData);
         }
 

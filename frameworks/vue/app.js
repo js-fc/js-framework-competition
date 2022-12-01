@@ -7,7 +7,7 @@ var app = new Vue({
 
 function loadSamples() {
   app.databases = ENV.generateData().toArray();
-  Monitoring.renderRate.ping();
+  window.Monitoring?.ping();
   setTimeout(loadSamples, ENV.timeout);
 }
 
