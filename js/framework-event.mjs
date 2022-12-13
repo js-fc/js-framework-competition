@@ -33,7 +33,13 @@ class FrameworkEvent extends LitElement {
 
     list = [{name: "Lit", 0: 10.1}]
 
-    events
+    scheme = "http";
+    hostname = "localhost"
+    port = 7000
+    frameworks = new Map()
+    results = []
+
+    eventSource
 
     constructor() {
         super();
@@ -55,12 +61,12 @@ class FrameworkEvent extends LitElement {
                     </tr>
                 </thead>
                 <tbody>
-                    ${this.list.map( (item, index) =>
+                    ${this.results.map( (task, index) =>
                         html`
                         <tr>
                             <td>${index}</td>
-                            <td>${item.name}</td>
-                            <td>${item[0]}</td>
+                            <td>${task._id}</td>
+                            <td>${task._id}</td>
                         </tr>
                         `
                     )}
@@ -75,10 +81,23 @@ class FrameworkEvent extends LitElement {
 
     firstUpdated() {
         super.firstUpdated();
-        this.events = new EventSource('http://localhost:7000/sse');
-        this.events.onmessage = (event) => {
+        this.eventSource = new EventSource('http://localhost:7000/sse');
+        this.eventSource.onmessage = (event) => {
             this.getEvent(event);
         };
+        this.eventSource.addEventListener('close', event => {
+            const reason = JSON.parse(event.data);
+            console.log(reason);
+            this.eventSource.close();
+        })
+        fetch(`${this.scheme}://${this.hostname}:${this.port}/api/frameworks`).then(response => response.json())
+            .then(frameworks => {
+                frameworks.rows.forEach(framework => {
+                    this.frameworks.set(framework.doc._id, framework.doc)
+                });
+                this.frameworks.forEach((value, key) => console.log(`${key} : ${JSON.stringify(value)}`))
+
+            });
     }
 
     updated(e) {
@@ -86,8 +105,11 @@ class FrameworkEvent extends LitElement {
     }
 
     getEvent(event) {
-        const parsedData = JSON.parse(event.data);
-        console.log(parsedData);
+        const test = JSON.parse(event.data);
+        test.frameworkId = test._id.split(':')[3];
+        this.results.push(test);
+        this.requestUpdate();
+        console.log(test);
     }
 
     async init() {
