@@ -44,6 +44,8 @@ class FrameworkEvent extends LitElement {
     constructor() {
         super();
         this.version = "1.0.0";
+        this.createEventSource();
+        this.getFrameworks();
     }
 
     render() {
@@ -64,9 +66,13 @@ class FrameworkEvent extends LitElement {
                     ${this.results.map( (task, index) =>
                         html`
                         <tr>
-                            <td>${index}</td>
-                            <td>${task._id}</td>
-                            <td>${task._id}</td>
+                            <td>${index+1}</td>
+                            <td>${this.frameworks.get(task._id.split(':')[3]).label}</td>
+                            <td>${task.rate[0]/task.base[0]}</td>
+                            <td>${task.rate[1]/task.base[1]}</td>
+                            <td>${task.rate[2]/task.base[2]}</td>
+                            <td>${task.rate[3]/task.base[3]}</td>
+                            <td>${task.rate[4]/task.base[4]}</td>
                         </tr>
                         `
                     )}
@@ -81,6 +87,13 @@ class FrameworkEvent extends LitElement {
 
     firstUpdated() {
         super.firstUpdated();
+    }
+
+    updated(e) {
+
+    }
+
+    createEventSource() {
         this.eventSource = new EventSource('http://localhost:7000/sse');
         this.eventSource.onmessage = (event) => {
             this.getEvent(event);
@@ -90,18 +103,6 @@ class FrameworkEvent extends LitElement {
             console.log(reason);
             this.eventSource.close();
         })
-        fetch(`${this.scheme}://${this.hostname}:${this.port}/api/frameworks`).then(response => response.json())
-            .then(frameworks => {
-                frameworks.rows.forEach(framework => {
-                    this.frameworks.set(framework.doc._id, framework.doc)
-                });
-                this.frameworks.forEach((value, key) => console.log(`${key} : ${JSON.stringify(value)}`))
-
-            });
-    }
-
-    updated(e) {
-
     }
 
     getEvent(event) {
@@ -110,6 +111,16 @@ class FrameworkEvent extends LitElement {
         this.results.push(test);
         this.requestUpdate();
         console.log(test);
+    }
+
+    getFrameworks(){
+        fetch(`${this.scheme}://${this.hostname}:${this.port}/api/frameworks`).then(response => response.json())
+        .then(frameworks => {
+            frameworks.rows.forEach(framework => {
+                this.frameworks.set(framework.doc._id.split(':')[1], framework.doc)
+            });
+            this.frameworks.forEach((value, key) => console.log(`${key} : ${JSON.stringify(value)}`))
+        });
     }
 
     async init() {
