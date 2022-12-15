@@ -15,13 +15,7 @@ class BaseFramework extends LitElement {
             baseFrameworkStyles,
             css`
                 :host {
-                    display: flex;
-                    flex-direction: row;
-                    flex-wrap: wrap;
-                    padding: 0;
-                    margin: 20px 0 0;
-                    justify-content: flex-start;
-                    position: relative;
+                    flex: 100%;
                     box-sizing: border-box;
                 }
             `
@@ -33,12 +27,13 @@ class BaseFramework extends LitElement {
         this.version = "1.0.0";
     }
 
+    testName = "Lit";
+    mutation = 1;
     render() {
         return html`
-            <div id="render-box">
-                <div id="render-info"></div>
-                <iframe id="render-frame" height="1080" width="1920" src="../frameworks/lit"></iframe>
-            </div>
+            <div class="title">Framework Speed Competition</div>
+            <div id="render-info">Running test: ${this.testName} Mutation: ${this.mutation}%</div>
+            <iframe id="render-frame" height="650px" width="100%" src="../frameworks/lit"></iframe>
         `;
     }
 

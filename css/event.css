@@ -3,6 +3,10 @@ body {
     font-family: "Open Sans Condensed", "Helvetica Neue";
 }
 
+#container {
+    display: flex;
+}
+
 #render-frame {
     background-color: white;
 }

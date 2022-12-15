@@ -53,12 +53,12 @@ class FrameworkEvent extends LitElement {
             <table id="ranking">
                 <thead>
                     <tr>
-                        <th style="min-width:25px"></th>
-                        <th style="min-width:250px">Name</th>
-                        <th style="min-width:100px">1%</th>
-                        <th style="min-width:100px">25%</th>
-                        <th style="min-width:100px">50%</th>
-                        <th style="min-width:100px">75%</th>
+                        <th style="width:25px"></th>
+                        <th style="width:250px">Name</th>
+                        <th style="width:100px">1%</th>
+                        <th style="width:100px">25%</th>
+                        <th style="width:100px">50%</th>
+                        <th style="width:100px">75%</th>
                         <th data-sort-default aria-sort="descending" style="min-width:100px">100%</th>
                     </tr>
                 </thead>

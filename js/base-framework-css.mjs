@@ -21,7 +21,7 @@ export const baseFrameworkStyles = css`
 
 @media(min-width: 1025px) {
     .title {
-    font-size: 80px;
+    font-size: 40px;
     }
 }
 
