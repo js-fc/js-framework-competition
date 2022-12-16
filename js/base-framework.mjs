@@ -18,6 +18,10 @@ class BaseFramework extends LitElement {
                     flex: 100%;
                     box-sizing: border-box;
                 }
+                input[type=range] {
+                    display: block;
+                    width: 100%;
+                }
             `
         ]
     }
@@ -33,7 +37,7 @@ class BaseFramework extends LitElement {
         return html`
             <div class="title">Framework Speed Competition</div>
             <div id="render-info">Running test: ${this.testName} Mutation: ${this.mutation}%</div>
-            <iframe id="render-frame" height="650px" width="100%" src="../frameworks/lit"></iframe>
+            <iframe id="render-frame" onload="${()=>this.onFrameLoad()}" height="650px" width="100%" src="../frameworks/lit"></iframe>
         `;
     }
 
@@ -41,14 +45,41 @@ class BaseFramework extends LitElement {
         console.log(e.target);
     }
 
+    onFrameLoad() {
+        console.log("111");
+    }
+
     firstUpdated() {
         super.firstUpdated();
+        this.checkDone();
     }
 
     updated(e) {
 
     }
 
+    async checkDone() {
+        var rateByMutation = [];
+		for (var k = 0; k <= 4; k++) {
+			var mutation = k * .25;
+			if (mutation == 0) {
+				mutation = 0.01;
+			}
+            let sum = 0;
+            console.log(111);
+            await this.sleep(2000);
+
+
+            console.log(222);
+            if (mutation == 0) {
+				mutation = 0.01;
+			}
+        }
+    }
+
+    sleep(ms) {
+		return new Promise(resolve => setTimeout(resolve, ms));
+	}
     async init() {
 
     }
