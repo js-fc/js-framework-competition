@@ -39,8 +39,13 @@ class BaseFramework extends LitElement {
         this.frameSrc = List[0].url;
     }
 
-    renderFrame;
-    result = {};
+    result = {}
+
+    frameworks;
+
+    scheme = "http";
+    hostname = "localhost";
+    port = 7000
 
     static get waitBeforeCollecting() {
         return 1000;
@@ -69,10 +74,22 @@ class BaseFramework extends LitElement {
         super.firstUpdated();
         this.renderFrame = this.renderRoot.querySelector('#render-frame');
         this.checkDone();
+        this.getFrameworks();
     }
 
     updated(e) {
 
+    }
+
+    getFrameworks() {
+        fetch(`${this.scheme}://${this.hostname}:${this.port}/api/framework/01GJFRHJ6M5DQX9AE0CXXC6H05`).then(response => response.json())
+        .then(framework => {
+            // framework.rows.forEach(framework => {
+            //     this.frameworks.set(framework.doc._id.split(':')[1], framework.doc)
+            // });
+            console.log(framework);
+            // this.frameworks.forEach((value, key) => console.log(`${key} : ${JSON.stringify(value)}`))
+        });
     }
 
     async checkDone() {
