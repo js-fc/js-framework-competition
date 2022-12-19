@@ -1,6 +1,6 @@
 export const List = [
 	{ type: 'naive vue', id: 'vue', url: './frameworks/vue', label: 'Vue' },
-	{ type: 'naive odajs', id: 'odajs', url: './frameworks/odajs', label: 'ODAJS', hide_label: false },
+	// { type: 'naive odajs', id: 'odajs', url: './frameworks/odajs', label: 'ODAJS', hide_label: false },
 	{ type: 'naive lit', id: 'lit', url: './frameworks/lit', label: 'Lit'},
 	{ type: 'naive aurelia', id: 'aurelia', url: './frameworks/aurelia', label: 'Aurelia' },
 	{ type: 'naive backbone', id: 'backbone', url: './frameworks/backbone', label: 'Backbone' },
