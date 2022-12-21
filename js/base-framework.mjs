@@ -2,7 +2,7 @@ import { LitElement,  html, css } from 'https://unpkg.com/lit@2.0.0/index.js?mod
 
 import { baseFrameworkStyles } from './base-framework-css.mjs';
 
-import { List } from './lit-list.js';
+import { BaseList } from './base-list.mjs';
 
 class BaseFramework extends LitElement {
 
@@ -35,17 +35,17 @@ class BaseFramework extends LitElement {
         super();
         this.version = "1.0.0";
         this.mutation = 0;
-        this.testName = List[0].label;
-        this.frameSrc = List[0].url;
+        this.frameworkList = [BaseList[0]];
+        this.testName = this.frameworkList[0].label;
+        this.frameSrc = this.frameworkList[0].url;
     }
 
-    result = {}
-
-    frameworks;
+    testResult = {}
 
     scheme = "http";
     hostname = "localhost";
     port = 7000
+    frameworkList = [];
 
     static get waitBeforeCollecting() {
         return 1000;
@@ -58,7 +58,7 @@ class BaseFramework extends LitElement {
         return html`
             <div class="title">Framework Speed Competition</div>
             <div id="render-info">Running test: ${this.testName} Mutation: ${this.mutation}%</div>
-            <iframe id="render-frame" onload="${()=>this.onFrameLoad()}" height="650px" width="100%" src="${this.frameSrc}"></iframe>
+            <iframe id="render-frame" @onload="${this.onFrameLoad}" height="650px" width="100%" src="${this.frameSrc}"></iframe>
         `;
     }
 
@@ -73,40 +73,48 @@ class BaseFramework extends LitElement {
     firstUpdated() {
         super.firstUpdated();
         this.renderFrame = this.renderRoot.querySelector('#render-frame');
+        this.getParams();
+        this.getFramework();
         this.checkDone();
-        this.getFrameworks();
     }
 
     updated(e) {
 
     }
 
-    getFrameworks() {
-        fetch(`${this.scheme}://${this.hostname}:${this.port}/api/framework/01GJFRHJ6M5DQX9AE0CXXC6H05`).then(response => response.json())
+    getParams() {
+        const searchParams = new URLSearchParams(window.location.search); //01GJFRHJ6M5DQX9AE0CXXC6H05
+        this.frameworkUlid = searchParams.get('framework');
+        this.taskUlid = searchParams.get('task');
+    }
+
+    getFramework() {
+        fetch(`${this.scheme}://${this.hostname}:${this.port}/api/framework/${this.frameworkUlid}`).then(response => response.json())
         .then(framework => {
-            // framework.rows.forEach(framework => {
-            //     this.frameworks.set(framework.doc._id.split(':')[1], framework.doc)
-            // });
-            console.log(framework);
-            // this.frameworks.forEach((value, key) => console.log(`${key} : ${JSON.stringify(value)}`))
+            this.frameworkList.push(framework);
         });
     }
 
     async checkDone() {
         for (let i = 0; i < 2; i++) {
             let rateByMutation = [];
-            for (let k = 0; k <= 4; k++) {
+            for (let k = 0; k <= 0; k++) {
                 this.mutation = k ? k * 25 : 1;
-                this.testName = List[i].label;
-                this.frameSrc = List[i].url;
+                this.testName = this.frameworkList[i].label;
+                this.frameSrc = this.frameworkList[i].url;
                 await this.sleep(BaseFramework.waitBeforeCollecting);
                 if (!this.renderFrame.contentWindow.ENV) {
                     rateByMutation.push(0);
                     continue;
                 }
                 this.renderFrame.contentWindow.ENV.mutations(this.mutation / 100.0);
-                let rateData = [];
+
+                while (!this.renderFrame.contentWindow.Monitoring) {
+                    await this.sleep(100);
+                }
                 this.renderFrame.contentWindow.Monitoring.startMeasure();
+
+                let rateData = [];
                 for (let j = 0; j < BaseFramework.collectTime; j += BaseFramework.sleepTime) {
                     await this.sleep(BaseFramework.sleepTime);
                     if (this.renderFrame.contentWindow.Monitoring) {
@@ -125,14 +133,30 @@ class BaseFramework extends LitElement {
             }
 
             if (i === 0) {
-                this.result.rate = rateByMutation.slice();
+                this.testResult.base = rateByMutation.slice();
             }
             else {
-                this.result.base = rateByMutation.slice();
+                this.testResult.rate = rateByMutation.slice();
             }
             console.log(rateByMutation);
         }
-        window.close()
+        this.testResult.mutation = [1, 25, 50, 75, 100];
+        console.log(this.testResult);
+        this.sentResult();
+        //window.close()
+    }
+
+    async sentResult() {
+        const rawResponse = await fetch(`${this.scheme}://${this.hostname}:${this.port}/api/result/${this.taskUlid}/framework/${this.frameworkUlid}`, {
+            method: 'POST',
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(this.testResult)
+        });
+        const content = await rawResponse.json();
+        console.log(content);
     }
 
     sleep(ms) {
