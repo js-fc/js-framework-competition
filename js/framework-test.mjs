@@ -1,8 +1,8 @@
 import { LitElement,  html, css } from 'https://unpkg.com/lit@2.0.0/index.js?module';
 
-import { frameworkStyles } from './framework-list-css.js';
+import { frameworkStyles } from './framework-test-css.js';
 
-class FrameworkEvent extends LitElement {
+class FrameworkTest extends LitElement {
 
     static get properties() {
         return {
@@ -38,46 +38,44 @@ class FrameworkEvent extends LitElement {
     port = 7000
     frameworks = new Map()
     results = []
+    renderInfo = ``
+    mutation = 1
+    numberTest = 0
 
     eventSource
 
     constructor() {
         super();
         this.version = "1.0.0";
-        this.createEventSource();
-        this.getFrameworks();
+        const urlParams = new URLSearchParams(window.location.search);
+        console.log(JSON.stringify( urlParams))
+        //this.createEventSource();
+        //this.getFrameworks();
     }
 
     render() {
         return html`
-            <table id="ranking">
-                <thead>
-                    <tr>
-                        <th style="width:25px"></th>
-                        <th style="width:250px">Name</th>
-                        <th style="width:100px">1%</th>
-                        <th style="width:100px">25%</th>
-                        <th style="width:100px">50%</th>
-                        <th style="width:100px">75%</th>
-                        <th data-sort-default aria-sort="descending" style="min-width:100px">100%</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${this.results.map( (task, index) =>
-                        html`
-                        <tr>
-                            <td>${index+1}</td>
-                            <td>${this.frameworks.get(task._id.split(':')[3]).label}</td>
-                            <td>${task.rate[0]/task.base[0]}</td>
-                            <td>${task.rate[1]/task.base[1]}</td>
-                            <td>${task.rate[2]/task.base[2]}</td>
-                            <td>${task.rate[3]/task.base[3]}</td>
-                            <td>${task.rate[4]/task.base[4]}</td>
-                        </tr>
-                        `
-                    )}
-                </tbody>
-            </table>
+            <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+                <span class="title">Framework Speed Competition</span>
+                <div class="legend">
+                   <div class="legendChild">
+                       <span class="fw">Todo implementation</span>
+                        <div class="color todo"></div>
+                    </div>
+                    <div class="legendChild">
+                        <span class="fw">Naive implementation</span>
+                        <div class="color naive"></div>
+                    </div>
+                    <div class="legendChild">
+                        <span class="fw">Optimized implementation</span>
+                        <div class="color optimized"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="render-box">
+                <div id="render-info">Total tests ( ${this.numberTest}/${this.list.length}): Running test ( ${this.mutation}/5): ${this.list[this.numberTest].label}</div>
+                <iframe id="render-frame" height="1080" width="1920" src ='./frameworks/vue'></iframe>
+            </div>
         `;
     }
 
@@ -87,6 +85,7 @@ class FrameworkEvent extends LitElement {
 
     firstUpdated() {
         super.firstUpdated();
+        window.frames["render-frame"].contentWindow.ENV.mutations(1);
     }
 
     updated(e) {
@@ -138,4 +137,4 @@ class FrameworkEvent extends LitElement {
     }
 }
 
-customElements.define("framework-event", FrameworkEvent);
+customElements.define("framework-test", FrameworkTest);
