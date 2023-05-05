@@ -38,6 +38,7 @@ class FrameworkEvent extends LitElement {
     port = 7000
     frameworks = new Map()
     results = []
+    testId
 
     eventSource
 
@@ -99,9 +100,17 @@ class FrameworkEvent extends LitElement {
             this.getEvent(event);
         };
         this.eventSource.addEventListener('result', event => {
-            const reason = event.data;
-            console.log(reason);
+            const frameworkId = event.data;
+            this.getResult(this.testId, frameworkId)
+            console.log(frameworkId);
         })
+
+        this.eventSource.addEventListener('test', event => {
+            const testId = event.data;
+            this.testId = testId
+            console.log(testId);
+        })
+
         this.eventSource.addEventListener('close', event => {
             const reason = JSON.parse(event.data);
             console.log(reason);
@@ -124,6 +133,13 @@ class FrameworkEvent extends LitElement {
                 this.frameworks.set(framework.doc._id.split(':')[1], framework.doc)
             });
             this.frameworks.forEach((value, key) => console.log(`${key} : ${JSON.stringify(value)}`))
+        });
+    }
+
+    getResult(resultId, frameworkId){
+        fetch(`${this.scheme}://${this.hostname}:${this.port}/api/result/${resultId}/framework/${frameworkId}`).then(response => response.json())
+        .then(framework => {
+            console.log(framework)
         });
     }
 
