@@ -85,7 +85,8 @@ class BaseFramework extends LitElement {
     getParams() {
         const searchParams = new URLSearchParams(window.location.search); //01GJFRHJ6M5DQX9AE0CXXC6H05
         this.frameworkUlid = searchParams.get('framework');
-        this.taskUlid = searchParams.get('task');
+        this.testUlid = searchParams.get('test');
+
     }
 
     getFramework() {
@@ -98,7 +99,7 @@ class BaseFramework extends LitElement {
     async checkDone() {
         for (let i = 0; i < 2; i++) {
             let rateByMutation = [];
-            for (let k = 0; k <= 0; k++) {
+            for (let k = 0; k <= 4; k++) {
                 this.mutation = k ? k * 25 : 1;
                 this.testName = this.frameworkList[i].label;
                 this.frameSrc = this.frameworkList[i].url;
@@ -147,7 +148,7 @@ class BaseFramework extends LitElement {
     }
 
     async sentResult() {
-        const rawResponse = await fetch(`${this.scheme}://${this.hostname}:${this.port}/api/result/${this.taskUlid}/framework/${this.frameworkUlid}`, {
+        const rawResponse = await fetch(`${this.scheme}://${this.hostname}:${this.port}/api/result/${this.testUlid}/framework/${this.frameworkUlid}`, {
             method: 'POST',
             headers: {
             'Accept': 'application/json',

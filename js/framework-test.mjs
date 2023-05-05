@@ -6,7 +6,8 @@ class FrameworkTest extends LitElement {
 
     static get properties() {
         return {
-            version: { type: String, default: '1.0.0', save: true, category: 'settings' }
+            version: { type: String, default: '1.0.0', save: true, category: 'settings' },
+            testSource: { type: String, default: '1.0.0', save: false, category: 'settings' }
         }
     }
 
@@ -41,6 +42,10 @@ class FrameworkTest extends LitElement {
     renderInfo = ``
     mutation = 1
     numberTest = 0
+    frameworkId
+    testId
+    baseId
+
 
     eventSource
 
@@ -48,7 +53,12 @@ class FrameworkTest extends LitElement {
         super();
         this.version = "1.0.0";
         const urlParams = new URLSearchParams(window.location.search);
-        console.log(JSON.stringify( urlParams))
+        this.frameworkId = urlParams.get('framework');
+        this.testId = urlParams.get('test');
+        this.baseId = '01GXVG6BDA4JP0ZWH9CT832BAN';
+        this.getFramework()
+        this.getBase()
+
         //this.createEventSource();
         //this.getFrameworks();
     }
@@ -74,7 +84,7 @@ class FrameworkTest extends LitElement {
             </div>
             <div id="render-box">
                 <div id="render-info">Total tests ( ${this.numberTest}/${this.list.length}): Running test ( ${this.mutation}/5): ${this.list[this.numberTest].label}</div>
-                <iframe id="render-frame" height="1080" width="1920" src ='./frameworks/vue'></iframe>
+                <iframe id="render-frame" height="1080" width="1920" src = "${this.testSource}"></iframe>
             </div>
         `;
     }
@@ -85,11 +95,74 @@ class FrameworkTest extends LitElement {
 
     firstUpdated() {
         super.firstUpdated();
-        window.frames["render-frame"].contentWindow.ENV.mutations(1);
+       // window.frames["render-frame"].contentWindow.ENV.mutations(1);
     }
 
     updated(e) {
 
+    }
+
+    change() {
+	    for (var i = 0; i < List.length; i++) {
+		    var rateByMutation = [];
+		    for (var k = 0; k <= 4; k++) {
+			    this.mutation = k == 0 ? 0.01 : k * .25;
+
+			window.frames["render-frame"].contentWindow.ENV.mutations(this.mutation);
+			var rateData = [];
+
+			var sumRate = 0;
+			for (var j = 0; j < rateData.length; j++) {
+				sumRate += rateData[j];
+			}
+			var averageRate = sumRate / rateData.length;
+
+			// var memory = 0;
+			// if (window.frames["render-frame"].contentWindow.Monitoring) {
+			//	 memory = window.frames["render-frame"].contentWindow.Monitoring.memoryStats.memory();
+			// }
+			rateByMutation.push(averageRate);
+		}
+		var tr = document.createElement('tr');
+
+		switch (List[i].type) {
+			case 'naive':
+				tr.setAttribute('class', 'color naive');
+				break;
+			case 'optimized':
+				tr.setAttribute('class', 'color optimized');
+				break;
+		}
+
+
+		var td0 = document.createElement('td');
+		td0.innerText = i + 1;
+		tr.appendChild(td0);
+		var td1 = document.createElement('td');
+		td1.innerText = List[i].label;
+		tr.appendChild(td1);
+		for (var k = 0; k < rateByMutation.length; k++) {
+
+			var td2 = document.createElement('td');
+			td2.innerText = rateByMutation[k].toFixed(2);
+			tr.appendChild(td2);
+		}
+		// var td3 = document.createElement('td');
+		// td3.innerText = memory;
+		// tr.appendChild(td3);
+		document.getElementById("ranking-body").appendChild(tr);
+
+		if (!tableSort) {
+			tableSort = new Tablesort(document.getElementById('ranking'));
+		}
+		tableSort.refresh();
+
+		// update number after sort
+		var trs = document.getElementById('ranking').getElementsByTagName('tr')
+		for (var k = 1; k < trs.length; k++) {
+			trs[k].getElementsByTagName('td')[0].innerText = k;
+		}
+	}
     }
 
     createEventSource() {
@@ -111,6 +184,30 @@ class FrameworkTest extends LitElement {
         this.requestUpdate();
         console.log(test);
     }
+
+    getTest(){
+        fetch(`${this.scheme}://${this.hostname}:${this.port}/api/test/${this.testId}`).then(response => response.json())
+        .then(test => {
+            this.list[0] = test
+
+        });
+    }
+
+    getFramework(){
+        fetch(`${this.scheme}://${this.hostname}:${this.port}/api/framework/${this.frameworkId}`).then(response => response.json())
+        .then( framework =>
+            this.list[1] = framework
+        );
+    }
+
+    getBase(){
+        fetch(`${this.scheme}://${this.hostname}:${this.port}/api/framework/${this.baseId}`).then(response => response.json())
+        .then( framework => {
+            this.list[0] = framework;
+            this.testSource = framework.url
+        });
+    }
+
 
     getFrameworks(){
         fetch(`${this.scheme}://${this.hostname}:${this.port}/api/frameworks`).then(response => response.json())

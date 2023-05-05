@@ -98,6 +98,10 @@ class FrameworkEvent extends LitElement {
         this.eventSource.onmessage = (event) => {
             this.getEvent(event);
         };
+        this.eventSource.addEventListener('result', event => {
+            const reason = event.data;
+            console.log(reason);
+        })
         this.eventSource.addEventListener('close', event => {
             const reason = JSON.parse(event.data);
             console.log(reason);
@@ -109,7 +113,7 @@ class FrameworkEvent extends LitElement {
         const test = JSON.parse(event.data);
         test.frameworkId = test._id.split(':')[3];
         this.results.push(test);
-        this.requestUpdate();
+        //this.requestUpdate();
         console.log(test);
     }
 
