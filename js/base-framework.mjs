@@ -99,7 +99,7 @@ class BaseFramework extends LitElement {
     async checkDone() {
         for (let i = 0; i < 2; i++) {
             let rateByMutation = [];
-            for (let k = 0; k <= 4; k++) {
+            for (let k = 0; k <= 0; k++) {
                 this.mutation = k ? k * 25 : 1;
                 this.testName = this.frameworkList[i].label;
                 this.frameSrc = this.frameworkList[i].url;
@@ -144,7 +144,7 @@ class BaseFramework extends LitElement {
         this.testResult.mutation = [1, 25, 50, 75, 100];
         console.log(this.testResult);
         this.sentResult();
-        //window.close()
+        window.close()
     }
 
     async sentResult() {
