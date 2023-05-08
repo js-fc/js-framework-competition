@@ -144,7 +144,9 @@ class BaseFramework extends LitElement {
         this.testResult.mutation = [1, 25, 50, 75, 100];
         console.log(this.testResult);
         this.sentResult();
-        window.close()
+        setTimeout(() =>
+            window.close()
+        , 100);
     }
 
     async sentResult() {
