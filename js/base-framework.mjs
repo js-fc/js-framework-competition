@@ -144,7 +144,7 @@ class BaseFramework extends LitElement {
         this.testResult.mutation = [1, 25, 50, 75, 100];
         console.log(this.testResult);
         this.sentResult();
-        window.postMessage('message', "close");
+        window.postMessage("message", "close");
 
     }
 
