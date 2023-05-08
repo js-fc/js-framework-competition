@@ -145,8 +145,6 @@ class BaseFramework extends LitElement {
         console.log(this.testResult);
         this.sentResult();
         window.close();
-        // postMessage('message', "*");
-
     }
 
     async sentResult() {
