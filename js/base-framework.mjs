@@ -97,7 +97,7 @@ class BaseFramework extends LitElement {
     }
 
     async checkDone() {
-        for (let i = 0; i < 1; i++) {
+        for (let i = 0; i < 2; i++) {
             let rateByMutation = [];
             for (let k = 0; k <= 0; k++) {
                 this.mutation = k ? k * 25 : 1;
