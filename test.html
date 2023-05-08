@@ -14,9 +14,10 @@
 <body>
     <base-framework></base-framework>
     <script>
-        setTimeout(()=> window.close(), 10000)
+        a = window.close.bind()
+        //setTimeout(()=> window.close(), 10000)
     window.addEventListener("message", function(event) {
-        window.close();
+        a();
     });
     </script>
 </body>
