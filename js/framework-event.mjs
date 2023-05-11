@@ -120,7 +120,7 @@ class FrameworkEvent extends LitElement {
         this.sortDirection = sortColumn === this.sortColumn? !this.sortDirection : false;
         this.sortColumn = sortColumn
         this.results.sort( (a, b) =>
-            this.sortDirection ? a.rate[sortColumn] - b.rate[sortColumn] : b.rate[sortColumn] - a.rate[sortColumn]
+            this.sortDirection ? a.result[sortColumn] - b.result[sortColumn] : b.result[sortColumn] - a.result[sortColumn]
         )
         this.requestUpdate();
     }
