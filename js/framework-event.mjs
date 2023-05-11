@@ -54,8 +54,8 @@ class FrameworkEvent extends LitElement {
         this.version = "1.0.0";
         this.createEventSource();
         this.getFrameworks();
-        this.getMyResult('01GZY1QDQ1VV3BBK5R72FZ7HR8', '01GJFRHJ6M5DQX9AE0CXXC6H05')
-        this.getMyResult('01GZY1QDQ1VV3BBK5R72FZ7HR8', '01GXVG6BDA4JP0ZWH9CT832BAN')
+        //this.getMyResult('01GZY1QDQ1VV3BBK5R72FZ7HR8', '01GJFRHJ6M5DQX9AE0CXXC6H05')
+        //this.getMyResult('01GZY1QDQ1VV3BBK5R72FZ7HR8', '01GXVG6BDA4JP0ZWH9CT832BAN')
     }
 
     render() {
@@ -81,11 +81,10 @@ class FrameworkEvent extends LitElement {
                         <tr>
                             <td>${index+1}</td>
                             <td>${task.label}</td>
-                            <td>${(task.result[0]).toFixed(2)}</td>
-                            <td>${(task.result[1]).toFixed(2)}</td>
-                            <td>${(task.result[2]).toFixed(2)}</td>
-                            <td>${(task.result[3]).toFixed(2)}</td>
-                            <td>${(task.result[4]).toFixed(2)}</td>
+                            ${task.result.map( (result, index) => html`
+                                <td>${result.toFixed(2)}</td>
+                            `
+                            )}
                         </tr>
                         `
                     )}
@@ -184,7 +183,29 @@ class FrameworkEvent extends LitElement {
     getResult(resultId, frameworkId){
         fetch(`${this.scheme}://${this.hostname}:${this.port}/api/result/${resultId}/framework/${frameworkId}`).then(response => response.json())
         .then(framework => {
-            console.log(framework)
+            framework.result = [];
+            framework.rate.forEach( (mutation, index) => {
+                framework.result.push(framework.rate[index]/framework.base[index])
+            });
+
+            if (this.frameworks.has(frameworkId) )
+            {
+                framework.label = this.frameworks.get(frameworkId).label
+                this.results.push(framework);
+                this.resortTable();
+                this.requestUpdate();
+            }
+            else {
+                fetch(`${this.scheme}://${this.hostname}:${this.port}/api/framework/${frameworkId}`).then( response => response.json())
+                .then( res => {
+                    framework.label = res.label
+                    this.results.push(framework);
+                    this.resortTable();
+                    this.requestUpdate();
+                    console.log(framework);
+                    console.log(res);
+                })
+            }
         });
     }
 
