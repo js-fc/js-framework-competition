@@ -35,9 +35,11 @@ class BaseFramework extends LitElement {
         super();
         this.version = "1.0.0";
         this.mutation = 0;
-        this.frameworkList = [BaseList[0]];
-        this.testName = this.frameworkList[0].label;
-        this.frameSrc = this.frameworkList[0].url;
+        this.frameworkList = [];
+        //https://js-fc.github.io/js-framework-competition/test.html?framework=01GXVGCMM9SF0JHFEH6DY7J2X4&test=01H054KC6CJC758G56M9VRN378
+        // this.frameworkList = [BaseList[0]];
+        //this.testName = this.frameworkList[0].label;
+        //this.frameSrc = this.frameworkList[0].url;
     }
 
     testResult = {}
@@ -75,7 +77,7 @@ class BaseFramework extends LitElement {
         this.renderFrame = this.renderRoot.querySelector('#render-frame');
         this.getParams();
         this.getFramework();
-        this.checkDone();
+
     }
 
     updated(e) {
@@ -93,7 +95,7 @@ class BaseFramework extends LitElement {
         fetch(`${this.scheme}://${this.hostname}:${this.port}/api/framework/${this.frameworkUlid}`).then(response => response.json())
         .then(framework => {
             this.frameworkList.push(framework);
-        });
+        }).then(() => this.checkDone());
     }
 
     async checkDone() {
@@ -133,12 +135,12 @@ class BaseFramework extends LitElement {
                 rateByMutation.push(averageRate);
             }
 
-            if (i === 0) {
-                this.testResult.base = rateByMutation.slice();
-            }
-            else {
+            // if (i === 0) {
+            //     this.testResult.base = rateByMutation.slice();
+            // }
+            // else {
                 this.testResult.rate = rateByMutation.slice();
-            }
+            // }
             console.log(rateByMutation);
         }
         this.testResult.mutation = [1, 25, 50, 75, 100];
