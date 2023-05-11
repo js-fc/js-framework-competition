@@ -143,7 +143,7 @@ class BaseFramework extends LitElement {
             // }
             console.log(rateByMutation);
         }
-        this.testResult.mutation = [1, 25, 50, 75, 100];
+        this.testResult.mutation1 = [1, 25, 50, 75, 100];
         console.log(this.testResult);
 
         await this.sentResult();
