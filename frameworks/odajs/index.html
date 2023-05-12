@@ -1,4 +1,40 @@
 <!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+    <head>
+        <meta name="description" content="dbmon oda">
+        <script type="module" src="https://odajs.github.io/oda/oda.js"></script>
+        <script type="module" src="./odajs/app.js"></script>
+        <title>dbmon (ODA)</title>
+        <style>
+            body {
+                flex-direction: column;
+                color: #333;
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                font-size: 14px;
+                line-height: 1.42857143;
+                margin: 0;
+            }
+            label {
+                display: inline-block;
+                font-weight: 700;
+                margin-bottom: 5px;
+            }
+            input[type=range] {
+                display: block;
+                width: 100%;
+            }
+
+        </style>
+    </head>
+    <body>
+        <oda-pref></oda-pref>
+        <script src="../../js/ENV.js"></script>
+        <!-- <script type="module" src="../../lib/monitor.mjs"></script> -->
+    </body>
+</html>
+
+<!-- <!DOCTYPE html>
 <html lang="ru">
 
 <head>
@@ -170,4 +206,4 @@
     })
 </script>
 
-</html>
+</html> -->
